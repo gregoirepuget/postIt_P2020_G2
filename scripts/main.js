@@ -40,12 +40,26 @@ $(document).ready(function(){
     listePostIt.push(infoPostIt);
     localStorage.setItem('listePostItLocal', JSON.stringify(listePostIt));
     
+    afficherPostIt(listePostIt.length-1);
   }
     
   function getTirage(limit)
   {
     return Math.floor(Math.random()*limit);
   }
+  
+  
+  function afficherPostIt(postIt_Id)
+  {
+     var content = '<div class="postick" data-key="'+ postIt_Id +'" style="left:'+listePostIt[postIt_Id].posX+'px; top:'+listePostIt[postIt_Id].posY+'px; background:'+listePostIt[postIt_Id].couleur+';">';
+     content += '<div class="toolbar"><span class="delete">x</span></div>';
+     content +=  '<div contenteditable="true" class="editable">'+listePostIt[postIt_Id].content+'</div>';
+     content += '</div>';
+     
+     $("#content").append(content);
+  
+  }
+  
   
   
 });
