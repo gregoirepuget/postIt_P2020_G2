@@ -1,9 +1,16 @@
 $(document).ready(function(){
   
+  //localStorage.removeItem('listePostItLocal');
+  
   var listePostIt = localStorage.getItem('listePostItLocal');
   if(listePostIt != null)
   {
     listePostIt= JSON.parse(listePostIt);
+    
+    for(var i=0; i< listePostIt.length; i++)
+    {
+      afficherPostIt(i); 
+    }
     console.log(listePostIt);
   }
   else
@@ -57,11 +64,49 @@ $(document).ready(function(){
      content += '</div>';
      
      $("#content").append(content);
+    
+    $(".postick").draggable(
+      {
+        "cancel": '.editable',
+        "zIndex": 3000,
+        "stack" : '.postick',
+        "stop" : function( event, ui ) { miseAJourPosition($(this)); }
+      
+      }
+    );
+    
+    $(".editable").on('blur',function(){
+      var postIt_Id= $(this).parent().attr("data-key");
+      var content= $(this).html();
+    
+      listePostIt[postIt_Id].content=content;
+      localStorage.setItem('listePostItLocal', JSON.stringify(listePostIt));
+    });
+    
   
+  }
+  
+  function miseAJourPosition(element)
+  {
+    var postIt_Id=element.attr("data-key");
+    var posX=element.position().left;
+    var posY= element.position().top;
+    
+    listePostIt[postIt_Id].posX=posX;
+    listePostIt[postIt_Id].posY=posY;
+    localStorage.setItem('listePostItLocal', JSON.stringify(listePostIt));
+
   }
   
   
   
 });
   
+
+
+
+
+
+
+
   
